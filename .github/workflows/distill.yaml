@@ -11,6 +11,8 @@ on:
       - master
 
 name: Build_Site
+env:
+  RENV_PATHS_ROOT: ~/Library/Application Support/renv
 
 jobs:
   build:
@@ -23,13 +25,13 @@ jobs:
       - name: Install system level dependencies
         run: brew install pandoc
 
-      - name: Cache Renv packages
-      - uses: actions/cache@v2
-        with:
-          path: ~/Library/Application Support/renv
-          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-renv-
+    - name: Cache packages
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.RENV_PATHS_ROOT }}
+        key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-renv-
 
       - name: Restore packages
         shell: Rscript {0}
