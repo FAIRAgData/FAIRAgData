@@ -14,7 +14,7 @@ name: Build_Site
 
 jobs:
   build:
-    runs-on: macOS
+    runs-on: macOS-latest
     steps:
 
       - name: Setup R
