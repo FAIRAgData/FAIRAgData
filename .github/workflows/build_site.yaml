@@ -24,16 +24,18 @@ jobs:
         run: brew install pandoc
 
       - name: Cache Renv packages
-        uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
-          path: $HOME/.local/share/renv
-          key: r-${{ hashFiles('renv.lock') }}
-          restore-keys: r-
+          path: ~/Library/Application Support/renv
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+          ${{ runner.os }}-renv-
 
-      - name: Install packages
+      - name: Restore packages
+        shell: Rscript {0}
         run: |
-          R -e 'install.packages("renv")'
-          R -e 'renv::restore()'
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
 
       - name: Build site
         run: |
