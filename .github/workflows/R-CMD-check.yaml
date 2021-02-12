@@ -14,16 +14,14 @@ name: Build_Site
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: MacOS
     steps:
 
       - name: Setup R
         uses: r-lib/actions/setup-r@master
 
       - name: Install system level dependencies
-        run: |
-          https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-1-amd64.deb
-          sudo dpkg -i pandoc-2.11.4-1-amd64.deb
+        run: brew install pandoc
 
       - name: Cache Renv packages
         uses: actions/cache@v1
