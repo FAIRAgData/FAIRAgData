@@ -1,0 +1,49 @@
+# For help debugging build failures open an issue on the RStudio community with the 'github-actions' tag.
+# https://community.rstudio.com/new-topic?category=Package%20development&tags=github-actions
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+name: Build_Site
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@2.1.1
+
+      - name: Install npm
+        uses: actions/setup-node@v1
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@master
+
+      - name: Install system level dependencies
+        run: |
+          sudo apt-get install pandoc pandoc-citeproc libcurl4-openssl-dev
+      - name: Cache Renv packages
+        uses: actions/cache@v1
+        with:
+          path: $HOME/.local/share/renv
+          key: r-${{ hashFiles('renv.lock') }}
+          restore-keys: r-
+
+      - name: Install packages
+        run: |
+          R -e 'install.packages("renv")'
+          R -e 'renv::restore()'
+
+      - name: Build site
+        run: |
+          R -e 'rmarkdown::render_site()'
+
