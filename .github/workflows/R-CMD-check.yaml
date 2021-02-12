@@ -16,21 +16,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@2.1.1
-
-      - name: Install npm
-        uses: actions/setup-node@v1
 
       - name: Setup R
         uses: r-lib/actions/setup-r@master
 
       - name: Install system level dependencies
         run: |
-          sudo apt-get install pandoc pandoc-citeproc libcurl4-openssl-dev
+          https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-1-amd64.deb
+          sudo dpkg -i pandoc-2.11.4-1-amd64.deb
+
       - name: Cache Renv packages
         uses: actions/cache@v1
         with:
