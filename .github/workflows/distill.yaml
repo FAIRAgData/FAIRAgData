@@ -10,6 +10,8 @@ name: Build_Site
 
 jobs:
   build:
+    env:
+      RENV_PATHS_ROOT: ~/Library/Application Support/renv
     runs-on: macOS-latest
     steps:
 
