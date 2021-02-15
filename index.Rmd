@@ -1,7 +1,7 @@
 ---
-title: "Give your agricultural data a FAIR go"
+title: "Towards FAIR agricultural data for sustainable production under environmental changes"
 description: |
-  A website to support an AAS Theo Murphy application.
+  Give your agricultural data a FAIR go
 site: distill::distill_website
 ---
 
